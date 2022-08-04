@@ -78,6 +78,7 @@ var total = 0;
 function buy(id) {
   let chosenProduct = products.find((product) => product.id === id);
   cartList.push(chosenProduct);
+  calculateTotal();
   console.log(cartList);
 }
 
@@ -89,8 +90,11 @@ function cleanCart() {
 }
 
 // Exercise 3
+// Calculate total price of the cart using the "cartList" array
+
 function calculateTotal() {
-  // Calculate total price of the cart using the "cartList" array
+  let result = cartList.reduce((a, b) => a + b["price"], 0);
+  console.log(result.toFixed(2));
 }
 
 // Exercise 4
