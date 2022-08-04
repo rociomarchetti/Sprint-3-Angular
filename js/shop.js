@@ -83,6 +83,9 @@ function buy(id) {
 
 // Exercise 2
 function cleanCart() {
+  let newEmptyCartList = cartList.splice(0, cartList.lenght);
+  cartList = newEmptyCartList;
+  console.log(cartList);
 }
 
 // Exercise 3
