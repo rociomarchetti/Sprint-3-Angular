@@ -104,6 +104,7 @@ function calculateTotal() {
 function generateCart() {
   cartList.forEach((product) => {
     product.quantity = 1;
+    product.subtotal = product.price;
   });
 
   let cart = cartList.reduce((acumulador, valorActual) => {
@@ -113,6 +114,7 @@ function generateCart() {
           return {
             ...product,
             quantity: product.quantity + valorActual.quantity,
+            subtotal: (product.quantity + valorActual.quantity) * product.price,
           };
         }
         return product;
@@ -122,10 +124,28 @@ function generateCart() {
   }, []);
 
   console.log(cart);
+  applyPromotionsCart(cart);
 }
 
 // Exercise 5
-function applyPromotionsCart() {
+function applyPromotionsCart(cart) {
+  let cartWithDiscount = cart.map((product) => {
+    if (product.id === 1 && product.quantity > 3) {
+      return {
+        ...product,
+        subtotalWithDiscount: product.quantity * 10,
+      };
+      
+    } else if (product.id === 3 && product.quantity >= 10) {
+      return {
+        ...product,
+        subtotalWithDiscount: ((product.subtotal * 2) / 3).toFixed(2),
+      }
+    }
+    return product;
+  }, []);
+
+  console.log(cartWithDiscount);
 }
 
 // Exercise 6
