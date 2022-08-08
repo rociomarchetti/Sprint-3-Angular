@@ -98,14 +98,34 @@ function calculateTotal() {
 }
 
 // Exercise 4
+// Using the "cartlist" array that contains all the items in the shopping cart,
+// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+
 function generateCart() {
-  // Using the "cartlist" array that contains all the items in the shopping cart,
-  // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+  cartList.forEach((product) => {
+    product.quantity = 1;
+  });
+
+  let cart = cartList.reduce((acumulador, valorActual) => {
+    if (acumulador.find((product) => product.id === valorActual.id)) {
+      return acumulador.map((product) => {
+        if (product.id === valorActual.id) {
+          return {
+            ...product,
+            quantity: product.quantity + valorActual.quantity,
+          };
+        }
+        return product;
+      });
+    }
+    return [...acumulador, valorActual];
+  }, []);
+
+  console.log(cart);
 }
 
 // Exercise 5
 function applyPromotionsCart() {
-  // Apply promotions to each item in the array "cart"
 }
 
 // Exercise 6
