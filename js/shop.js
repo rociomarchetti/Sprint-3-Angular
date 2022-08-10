@@ -2,7 +2,7 @@
 var products = [
   {
     id: 1,
-    name: "cooking oil",
+    name: "Cooking oil",
     price: 10.5,
     type: "grocery",
     offer: {
@@ -95,6 +95,7 @@ function cleanCart() {
 function calculateTotal() {
   let result = cartList.reduce((a, b) => a + b["price"], 0);
   console.log(result.toFixed(2));
+  return result;
 }
 
 // Exercise 4
@@ -124,8 +125,12 @@ function generateCart() {
   }, []);
 
   console.log(cart);
-  applyPromotionsCart(cart);
+
+  cart = applyPromotionsCart(cart);
+  return cart;
 }
+
+let cartWithDiscount = [];
 
 // Exercise 5
 function applyPromotionsCart(cart) {
@@ -135,22 +140,56 @@ function applyPromotionsCart(cart) {
         ...product,
         subtotalWithDiscount: product.quantity * 10,
       };
-      
     } else if (product.id === 3 && product.quantity >= 10) {
       return {
         ...product,
         subtotalWithDiscount: ((product.subtotal * 2) / 3).toFixed(2),
-      }
+      };
     }
     return product;
   }, []);
 
   console.log(cartWithDiscount);
+  return cartWithDiscount;
 }
 
 // Exercise 6
+// Fill the shopping cart modal manipulating the shopping cart dom
 function printCart() {
-  // Fill the shopping cart modal manipulating the shopping cart dom
+  let boughts = generateCart();
+  console.log(boughts);
+
+  let listBody = document.querySelector("tbody");
+
+  boughts.forEach((bought) => {
+    let row = document.createElement("tr");
+
+    let productName = document.createElement("th");
+    productName.textContent = `${bought.name}`;
+    productName.scope = "row";
+    row.appendChild(productName);
+
+    let productPrice = document.createElement("td");
+    productPrice.textContent = `$${bought.price}`;
+    row.appendChild(productPrice);
+
+    let productQuantity = document.createElement("td");
+    productQuantity.textContent = `${bought.quantity}`;
+    row.appendChild(productQuantity);
+
+    let productTotal = document.createElement("td");
+    productTotal.textContent = `${bought.subtotal}`;
+    row.appendChild(productTotal);
+
+    if (bought.subtotalWithDiscount > 0) {
+      productTotal.textContent = `${bought.subtotalWithDiscount}`;
+    }
+
+    listBody.appendChild(row);
+  });
+
+  let totalPrice = document.getElementById("total_price");
+  totalPrice.textContent = calculateTotal();
 }
 
 // ** Nivell II **
