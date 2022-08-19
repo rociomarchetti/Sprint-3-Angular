@@ -149,7 +149,6 @@ function applyPromotionsCart(cart) {
     return product;
   }, []);
 
-  console.log(cartWithDiscount);
   return cartWithDiscount;
 }
 
@@ -194,14 +193,35 @@ function printCart() {
 
 // ** Nivell II **
 
-// Exercise 7
+// Exercise 8
+// Refactor previous code in order to simplify it
+// 1. Loop for to the array products to get the item to add to cart
+// 2. Add found product to the cart array or update its quantity in case it has been added previously.
+let newCart = [];
+
 function addToCart(id) {
-  // Refactor previous code in order to simplify it
-  // 1. Loop for to the array products to get the item to add to cart
-  // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+  let chosenProduct = products.find((product) => product.id === id);
+
+  let itemExists = newCart.find((item) => {
+    if (item.id === id) {
+      chosenProduct.quantity++;
+      chosenProduct.subtotal = chosenProduct.subtotal + chosenProduct.price;
+      return true;
+    }
+    return false;
+  });
+
+  if (!itemExists) {
+    newCart.push(chosenProduct);
+    chosenProduct.quantity = 1;
+    chosenProduct.subtotal = chosenProduct.price;
+  }
+
+  newCart = applyPromotionsCart(newCart);
+  console.log(newCart);
 }
 
-// Exercise 8
+// Exercise 9
 function removeFromCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
