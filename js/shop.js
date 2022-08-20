@@ -1,4 +1,3 @@
-// If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
 var products = [
   {
     id: 1,
@@ -63,6 +62,7 @@ var products = [
     type: "clothes",
   },
 ];
+
 // Array with products (objects) added directly with push(). Products in this array are repeated.
 var cartList = [];
 
@@ -219,12 +219,27 @@ function addToCart(id) {
 
   newCart = applyPromotionsCart(newCart);
   console.log(newCart);
+  return newCart;
 }
 
 // Exercise 9
+// 1. Loop for to the array products to get the item to add to cart
+// 2. Add found product to the cartList array
+
 function removeFromCart(id) {
-  // 1. Loop for to the array products to get the item to add to cart
-  // 2. Add found product to the cartList array
+  let itemToRemove = newCart.find((product) => product.id === id);
+  let index = newCart.indexOf(itemToRemove);
+
+  if (itemToRemove.quantity > 1) {
+    itemToRemove.quantity--;
+    itemToRemove.subtotal = itemToRemove.subtotal - itemToRemove.price;
+  } else if (itemToRemove.quantity === 1) {
+    newCart.splice(index, 1);
+  }
+
+  newCart = applyPromotionsCart(newCart);
+  console.log(newCart);
+  return newCart;
 }
 
 function open_modal() {
