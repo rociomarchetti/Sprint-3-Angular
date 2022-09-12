@@ -28,7 +28,7 @@ var products = [
   {
     id: 4,
     name: "All-in-one",
-    price: 260,
+    price: 2.6,
     type: "beauty",
   },
   {
@@ -84,9 +84,10 @@ function buy(id) {
 
 // Exercise 2
 function cleanCart() {
-  let newEmptyCartList = cartList.splice(0, cartList.lenght);
-  cartList = newEmptyCartList;
-  console.log(cartList);
+  let newEmptyCartList = newCart.splice(0, cartList.lenght);
+  newCart = newEmptyCartList;
+  console.log(newCart);
+  printCart()
 }
 
 // Exercise 3
@@ -103,12 +104,12 @@ function calculateTotal() {
 // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
 function generateCart() {
-  cartList.forEach((product) => {
+  newCart.forEach((product) => {
     product.quantity = 1;
     product.subtotal = product.price;
   });
 
-  let cart = cartList.reduce((acumulador, valorActual) => {
+  let cart = newCart.reduce((acumulador, valorActual) => {
     if (acumulador.find((product) => product.id === valorActual.id)) {
       return acumulador.map((product) => {
         if (product.id === valorActual.id) {
@@ -155,12 +156,13 @@ function applyPromotionsCart(cart) {
 // Exercise 6
 // Fill the shopping cart modal manipulating the shopping cart dom
 function printCart() {
-  let boughts = generateCart();
+  let boughts = newCart;
   console.log(boughts);
 
   let listBody = document.querySelector("tbody");
 
   boughts.forEach((bought) => {
+    
     let row = document.createElement("tr");
 
     let productName = document.createElement("th");
@@ -169,7 +171,7 @@ function printCart() {
     row.appendChild(productName);
 
     let productPrice = document.createElement("td");
-    productPrice.textContent = `$${bought.price}`;
+    productPrice.textContent = `${bought.price}`;
     row.appendChild(productPrice);
 
     let productQuantity = document.createElement("td");
@@ -211,13 +213,22 @@ function addToCart(id) {
     return false;
   });
 
+  if (itemExists) {
+    newCart.find((product) => {
+      if (product.id === 1 && product.quantity > 3) {
+        product.subtotalWithDiscount = product.quantity * 10;
+      } else if (product.id === 3 && product.quantity >= 10) {
+        product.subtotalWithDiscount = ((product.subtotal * 2) / 3).toFixed(2);
+      }
+    });
+  }
+
   if (!itemExists) {
     newCart.push(chosenProduct);
     chosenProduct.quantity = 1;
     chosenProduct.subtotal = chosenProduct.price;
   }
 
-  newCart = applyPromotionsCart(newCart);
   console.log(newCart);
   return newCart;
 }
