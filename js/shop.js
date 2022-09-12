@@ -87,14 +87,19 @@ function cleanCart() {
   let newEmptyCartList = newCart.splice(0, cartList.lenght);
   newCart = newEmptyCartList;
   console.log(newCart);
-  printCart()
+
+  let contentList = document.querySelector("tbody");
+  contentList.remove();
+
+  let totalPrice = document.getElementById("total_price");
+  totalPrice.textContent = calculateTotal();
 }
 
 // Exercise 3
 // Calculate total price of the cart using the "cartList" array
 
 function calculateTotal() {
-  let result = cartList.reduce((a, b) => a + b["price"], 0);
+  let result = newCart.reduce((a, b) => a + b["price"], 0);
   console.log(result.toFixed(2));
   return result;
 }
@@ -162,7 +167,6 @@ function printCart() {
   let listBody = document.querySelector("tbody");
 
   boughts.forEach((bought) => {
-    
     let row = document.createElement("tr");
 
     let productName = document.createElement("th");
@@ -185,6 +189,20 @@ function printCart() {
     if (bought.subtotalWithDiscount > 0) {
       productTotal.textContent = `${bought.subtotalWithDiscount}`;
     }
+
+    let removeButton = document.createElement("button");
+    removeButton.innerText = `-`;
+    removeButton.addEventListener("click", () => {
+      let id = bought.id;
+      removeFromCart(id);
+      productQuantity.textContent = bought.quantity;
+      productTotal.textContent = bought.subtotal;
+      if (bought.quantity === 0) {
+        row.remove();
+      }
+    });
+
+    row.appendChild(removeButton);
 
     listBody.appendChild(row);
   });
@@ -229,6 +247,9 @@ function addToCart(id) {
     chosenProduct.subtotal = chosenProduct.price;
   }
 
+  let productsAmount = document.getElementById("count_product");
+  productsAmount.innerText++;
+
   console.log(newCart);
   return newCart;
 }
@@ -241,14 +262,19 @@ function removeFromCart(id) {
   let itemToRemove = newCart.find((product) => product.id === id);
   let index = newCart.indexOf(itemToRemove);
 
-  if (itemToRemove.quantity > 1) {
+  if (itemToRemove.quantity >= 1) {
     itemToRemove.quantity--;
     itemToRemove.subtotal = itemToRemove.subtotal - itemToRemove.price;
-  } else if (itemToRemove.quantity === 1) {
+  } else if (itemToRemove.quantity === 0) {
     newCart.splice(index, 1);
   }
 
   newCart = applyPromotionsCart(newCart);
+  calculateTotal();
+
+  let productsAmount = document.getElementById("count_product");
+  productsAmount.innerText--;
+
   console.log(newCart);
   return newCart;
 }
