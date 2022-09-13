@@ -28,7 +28,7 @@ var products = [
   {
     id: 4,
     name: "All-in-one",
-    price: 2.6,
+    price: 260,
     type: "beauty",
   },
   {
@@ -186,29 +186,27 @@ function printCart() {
     productTotal.textContent = `${bought.subtotal}`;
     row.appendChild(productTotal);
 
-    if (bought.subtotalWithDiscount > 0) {
-      productTotal.textContent = `${bought.subtotalWithDiscount}`;
-    }
+    let totalPrice = document.getElementById("total_price");
+    let result = newCart.reduce((a, b) => a + b.subtotal, 0);
+    totalPrice.textContent = result;
 
     let removeButton = document.createElement("button");
     removeButton.innerText = `-`;
     removeButton.addEventListener("click", () => {
-      let id = bought.id;
+      let id = bought.id; 
       removeFromCart(id);
       productQuantity.textContent = bought.quantity;
       productTotal.textContent = bought.subtotal;
+      totalPrice.textContent = boughts.reduce((a, b) => a + b.subtotal, 0).toFixed(2);
       if (bought.quantity === 0) {
         row.remove();
+        newCart.splice(bought, 1);
       }
     });
-
     row.appendChild(removeButton);
 
     listBody.appendChild(row);
   });
-
-  let totalPrice = document.getElementById("total_price");
-  totalPrice.textContent = calculateTotal();
 }
 
 // ** Nivell II **
@@ -235,6 +233,7 @@ function addToCart(id) {
     newCart.find((product) => {
       if (product.id === 1 && product.quantity > 3) {
         product.subtotalWithDiscount = product.quantity * 10;
+        product.subtotal = product.subtotalWithDiscount;
       } else if (product.id === 3 && product.quantity >= 10) {
         product.subtotalWithDiscount = ((product.subtotal * 2) / 3).toFixed(2);
       }
@@ -265,12 +264,9 @@ function removeFromCart(id) {
   if (itemToRemove.quantity >= 1) {
     itemToRemove.quantity--;
     itemToRemove.subtotal = itemToRemove.subtotal - itemToRemove.price;
-  } else if (itemToRemove.quantity === 0) {
-    newCart.splice(index, 1);
   }
 
   newCart = applyPromotionsCart(newCart);
-  calculateTotal();
 
   let productsAmount = document.getElementById("count_product");
   productsAmount.innerText--;
