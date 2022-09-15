@@ -202,7 +202,9 @@ function printCart() {
         row.remove();
         newCart.splice(bought, 1);
       }
+      
     });
+
     row.appendChild(removeButton);
 
     listBody.appendChild(row);
@@ -259,7 +261,7 @@ function addToCart(id) {
 
 function removeFromCart(id) {
   let itemToRemove = newCart.find((product) => product.id === id);
-  let index = newCart.indexOf(itemToRemove);
+ /*  let index = newCart.indexOf(itemToRemove); */
 
   if (itemToRemove.quantity >= 1) {
     itemToRemove.quantity--;

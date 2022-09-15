@@ -1,31 +1,24 @@
 // Exercise 7
 
+function myFunction() {
+  document.getElementById("myForm").submit();
+}
+
 function validate(event) {
   // Get the input fields
-  var fName = document.getElementById("fName");
-  var fEmail = document.getElementById("fEmail");
-  let fAddress = document.getElementById("fAddress");
-  let lName = document.getElementById("fLastN");
-  let fPassword = document.getElementById("fPassword");
-  let fPhone = document.getElementById("fPhone");
-
-  /* // Get the error elements
-  var errorName = document.getElementById("errorName");
-  var errorEmail = document.getElementById("errorEmail");
- */
-
-  checkName(fName);
-  checkEmail(fEmail);
-  checkAddress(fAddress);
-  checkLastName(lName);
-  checkPassWord(fPassword);
-  checkPhone(fPhone);
+  checkName();
+  checkEmail();
+  checkAddress();
+  checkLastName();
+  checkPassWord();
+  checkPhone();
 
   event.preventDefault();
   event.stopPropagation();
 }
 
-function checkName(fName) {
+function checkName() {
+  var fName = document.getElementById("fName");
   let username = fName.value.trim();
 
   if (checkValidLength(username) === false) {
@@ -37,7 +30,8 @@ function checkName(fName) {
   }
 }
 
-function checkEmail(fEmail) {
+function checkEmail() {
+  var fEmail = document.getElementById("fEmail");
   let userEmail = fEmail.value.trim();
   let mailFormat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
 
@@ -50,7 +44,8 @@ function checkEmail(fEmail) {
   }
 }
 
-function checkAddress(fAddress) {
+function checkAddress() {
+  let fAddress = document.getElementById("fAddress");
   let userAddress = fAddress.value;
 
   if (checkValidLength(userAddress) === false) {
@@ -60,7 +55,8 @@ function checkAddress(fAddress) {
   }
 }
 
-function checkLastName(lName) {
+function checkLastName() {
+  let lName = document.getElementById("fLastN");
   let userLastName = lName.value.trim();
 
   if (checkValidLength(userLastName) === false) {
@@ -72,7 +68,8 @@ function checkLastName(lName) {
   }
 }
 
-function checkPassWord(fPassword) {
+function checkPassWord() {
+  let fPassword = document.getElementById("fPassword");
   let userPassword = fPassword.value.trim();
 
   if (checkValidLength(userPassword) === false) {
@@ -84,7 +81,8 @@ function checkPassWord(fPassword) {
   }
 }
 
-function checkPhone(fPhone) {
+function checkPhone() {
+  let fPhone = document.getElementById("fPhone");
   let userPhone = fPhone.value.trim();
 
   if (checkOnlyNumbers(userPhone) === false) {
