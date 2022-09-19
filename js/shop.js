@@ -260,7 +260,7 @@ function addToCart(id) {
 
   console.log(newCart);
   return newCart;
-}
+} 
 
 // Exercise 9
 // 1. Loop for to the array products to get the item to add to cart
