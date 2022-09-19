@@ -4,6 +4,7 @@ const form = document.getElementById("myForm");
 /* const inputs = form.getElementsByTagName("input"); */
 
 function validate(event) {
+  event.preventDefault()
   let error = 0;
   let mailFormat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
 
@@ -21,87 +22,63 @@ function validate(event) {
   let fPhone = document.getElementById("fPhone");
   let userPhone = fPhone.value.trim();
 
-  if (checkValidLength(username) === false) {
+  if (checkValidLength(username) === false || checkOnlyLetters(username) === false) {
     fName.classList.add("is-invalid");
     error++;
-  }
-  if (checkOnlyLetters(username) === false) {
-    fName.classList.add("is-invalid");
-    error++;
-  }
-  if (checkValidLength(userEmail) === false) {
+  } else {
+    fName.classList.remove("is-invalid")
+    fName.classList.add("is-valid")
+   }
+  
+  if (checkValidLength(userEmail) === false || userEmail.match(mailFormat) === false) {
     fEmail.classList.add("is-invalid");
     error++;
+  } else {
+    fEmail.classList.remove("is-invalid")
+    fEmail.classList.add("is-valid")
   }
-  if (userEmail.match(mailFormat) === false) {
-    fEmail.classList.add("is-invalid");
-    error++;
-  }
+    
   if (checkValidLength(userAddress) === false) {
     fAddress.classList.add("is-invalid");
     error++;
+  } else {
+    fAddress.classList.remove("is-invalid")
+    fAddress.classList.add("is-valid")
   }
-  if (checkValidLength(userLastName) === false) {
+
+  if (checkValidLength(userLastName) === false || checkOnlyLetters(userLastName) === false) {
     lName.classList.add("is-invalid");
     error++;
+  } else { 
+    lName.classList.remove("is-invalid")
+    lName.classList.add("is-valid")
   }
-  if (checkOnlyLetters(userLastName) === false) {
-    lName.classList.add("is-invalid");
-    error++;
-  }
-  if (checkValidLength(userPassword) === false) {
+
+  if (checkValidLength(userPassword) === false || checkNumbersAndLetters(userPassword) === false) {
     fPassword.classList.add("is-invalid");
     error++;
+  } else {
+    fPassword.classList.remove("is-invalid")
+    fPassword.classList.add("is-valid")
   }
-  if (checkNumbersAndLetters(userPassword) === false) {
-    fPassword.classList.add("is-invalid");
-    error++;
-  }
-  if (checkOnlyNumbers(userPhone) === false) {
+
+  if (checkOnlyNumbers(userPhone) === false || userPhone.length < 9) {
     fPhone.classList.add("is-invalid");
     error++;
-  }
-  if (userPhone.length < 9) {
-    fPhone.classList.add("is-invalid");
-    error++;
+  } else {
+    fPhone.classList.remove("is-invalid")
+    fPhone.classList.add("is-valid")
   }
 
   if (error > 0) {
-    alert("Error");
+    alert("Please fix the error to submit");
   } else {
-    fName.classList.add("is-valid");
-    fEmail.classList.add("is-valid");
-    fAddress.classList.add("is-valid");
-    lName.classList.add("is-valid");
-    fPassword.classList.add("is-valid");
-    fPhone.classList.add("is-valid");
     alert("OK");
   }
 
   event.preventDefault();
   event.preventPropagation();
-}
-
-/* function validate(event) {
-  event.preventDefault();
-
-  let errMessage = document.getElementById("submit-error");
-  const form = document.getElementById("myForm");
-
-  if (
-    checkName() === true &&
-    checkEmail() === true &&
-    checkAddress() === true &&
-    checkLastName() === true &&
-    checkPassWord() === true &&
-    checkPhone() === true
-  ) {
-    form.submit();
-  } else {
-    errMessage.innerHTML = "Please fix the error to submit";
-  }
-}
- */
+} 
 
 /* function checkName() {
   if (checkValidLength(username) === false) {
