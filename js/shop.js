@@ -162,8 +162,6 @@ function applyPromotionsCart(cart) {
 // Fill the shopping cart modal manipulating the shopping cart dom
 function printCart() {
   let boughts = newCart;
-  console.log(boughts);
-
   let listBody = document.querySelector("tbody");
 
   boughts.forEach((bought) => {
@@ -192,22 +190,31 @@ function printCart() {
 
     let removeButton = document.createElement("button");
     removeButton.innerText = `-`;
-    removeButton.addEventListener("click", () => {
-      let id = bought.id; 
-      removeFromCart(id);
-      productQuantity.textContent = bought.quantity;
-      productTotal.textContent = bought.subtotal;
-      totalPrice.textContent = boughts.reduce((a, b) => a + b.subtotal, 0).toFixed(2);
-      if (bought.quantity === 0) {
-        row.remove();
-        newCart.splice(bought, 1);
-      }
-      
-    });
-
     row.appendChild(removeButton);
 
     listBody.appendChild(row);
+
+    removeButton.addEventListener("click", () => {
+      let id = bought.id;
+      removeFromCart(id);
+
+      let itemExists = newCart.find((item) => {
+        if (item.id === id) {
+          productQuantity.textContent = item.quantity;
+          productTotal.textContent = item.subtotal.toFixed(2);
+          return true;
+        }
+        return false;
+      });
+
+      if (!itemExists) {
+        row.remove();
+      }
+
+      totalPrice.textContent = boughts
+        .reduce((a, b) => a + b.subtotal, 0)
+        .toFixed(2);
+    });
   });
 }
 
@@ -224,8 +231,8 @@ function addToCart(id) {
 
   let itemExists = newCart.find((item) => {
     if (item.id === id) {
-      chosenProduct.quantity++;
-      chosenProduct.subtotal = chosenProduct.subtotal + chosenProduct.price;
+      item.quantity++;
+      item.subtotal = item.subtotal + item.price;
       return true;
     }
     return false;
@@ -261,17 +268,20 @@ function addToCart(id) {
 
 function removeFromCart(id) {
   let itemToRemove = newCart.find((product) => product.id === id);
- /*  let index = newCart.indexOf(itemToRemove); */
+  let index = newCart.indexOf(itemToRemove);
 
   if (itemToRemove.quantity >= 1) {
     itemToRemove.quantity--;
     itemToRemove.subtotal = itemToRemove.subtotal - itemToRemove.price;
   }
+  if (itemToRemove.quantity === 0) {
+    newCart.splice(index, 1);
+  }
 
-  newCart = applyPromotionsCart(newCart);
+  /* newCart = applyPromotionsCart(newCart); */
 
   let productsAmount = document.getElementById("count_product");
-  productsAmount.innerText--;
+  productsAmount.innerText = newCart.length;
 
   console.log(newCart);
   return newCart;
