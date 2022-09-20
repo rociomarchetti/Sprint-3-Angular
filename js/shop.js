@@ -87,12 +87,7 @@ function cleanCart() {
   let newEmptyCartList = newCart.splice(0, cartList.lenght);
   newCart = newEmptyCartList;
   console.log(newCart);
-
-  let contentList = document.querySelector("tbody");
-  contentList.remove();
-
-  let totalPrice = document.getElementById("total_price");
-  totalPrice.textContent = calculateTotal();
+  return newCart;
 }
 
 // Exercise 3
@@ -192,8 +187,6 @@ function printCart() {
     removeButton.innerText = `-`;
     row.appendChild(removeButton);
 
-    listBody.appendChild(row);
-
     removeButton.addEventListener("click", () => {
       let id = bought.id;
       removeFromCart(id);
@@ -214,6 +207,17 @@ function printCart() {
       totalPrice.textContent = boughts
         .reduce((a, b) => a + b.subtotal, 0)
         .toFixed(2);
+    });
+
+    listBody.appendChild(row);
+
+    let cleanCartBtn = document.getElementById("cleanCartBtn");
+
+    cleanCartBtn.addEventListener("click", () => {
+      cleanCart();
+      row.remove();
+      let totalPrice = document.getElementById("total_price");
+      totalPrice.textContent = calculateTotal();
     });
   });
 }
@@ -260,7 +264,7 @@ function addToCart(id) {
 
   console.log(newCart);
   return newCart;
-} 
+}
 
 // Exercise 9
 // 1. Loop for to the array products to get the item to add to cart
