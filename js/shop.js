@@ -295,25 +295,12 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
-  let modal = document.getElementById("cartModal");
+  updateCart();
   console.log("Open Modal");
   printCart();
-
-  "#cartModal".on("hidden.bs.modal", function () {
-    alert("The modal is now hidden.");
-  });
 }
 
-/* modal.on ("hide.bs.modal", function (e) {
-  alert("test");
-}); */
-
-/* modal.on("hidden.bs.modal", ".modal", function () {
-  this.removeData("bs.modal");
-});
-
-document.ready(function () {
-  "#myBtn".click(function () {
-    "#myModal".modal("show");
-  });
-}); */
+function updateCart() {
+  let cartBody = document.querySelector("#cart_list");
+  cartBody.innerHTML = "";
+}
