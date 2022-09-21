@@ -95,7 +95,8 @@ function cleanCart() {
 
 function calculateTotal() {
   let result = newCart.reduce((a, b) => a + b["price"], 0);
-  console.log(result.toFixed(2));
+  result = result.toFixed(2);
+  console.log(result);
   return result;
 }
 
@@ -218,6 +219,8 @@ function printCart() {
       row.remove();
       let totalPrice = document.getElementById("total_price");
       totalPrice.textContent = calculateTotal();
+      let productsAmount = document.getElementById("count_product");
+      productsAmount.innerText = newCart.length;
     });
   });
 }
@@ -292,6 +295,25 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
+  let modal = document.getElementById("cartModal");
   console.log("Open Modal");
   printCart();
+
+  "#cartModal".on("hidden.bs.modal", function () {
+    alert("The modal is now hidden.");
+  });
 }
+
+/* modal.on ("hide.bs.modal", function (e) {
+  alert("test");
+}); */
+
+/* modal.on("hidden.bs.modal", ".modal", function () {
+  this.removeData("bs.modal");
+});
+
+document.ready(function () {
+  "#myBtn".click(function () {
+    "#myModal".modal("show");
+  });
+}); */
