@@ -302,7 +302,6 @@ function calculateSubtotal(id) {
     result = item.quantity * 10;
   } else if (item.id === 3 && item.quantity >= 10) {
     result = (item.quantity * item.price * 2) / 3;
-    console.log("este");
   } else {
     result = item.quantity * item.price;
   }
