@@ -177,12 +177,12 @@ function printCart() {
     row.appendChild(productQuantity);
 
     let productTotal = document.createElement("td");
-    productTotal.textContent = `${bought.subtotal}`;
+    productTotal.textContent = `${bought.subtotal.toFixed(2)}`;
     row.appendChild(productTotal);
 
     let totalPrice = document.getElementById("total_price");
     let result = newCart.reduce((a, b) => a + b.subtotal, 0);
-    totalPrice.textContent = result;
+    totalPrice.textContent = result.toFixed(2);
 
     let removeButton = document.createElement("button");
     removeButton.innerText = `-`;
@@ -205,9 +205,13 @@ function printCart() {
         row.remove();
       }
 
-      totalPrice.textContent = boughts
-        .reduce((a, b) => a + b.subtotal, 0)
-        .toFixed(2);
+      /* let productsAmount = document.getElementById("count_product");
+      productsAmount.textContent = newCart.length;
+      console.log(newCart.length); */
+
+      let totalPrice = document.getElementById("total_price");
+      let result = newCart.reduce((a, b) => a + b.subtotal, 0);
+      totalPrice.textContent = result.toFixed(2);
     });
 
     listBody.appendChild(row);
@@ -239,22 +243,11 @@ function addToCart(id) {
   let itemExists = newCart.find((item) => {
     if (item.id === id) {
       item.quantity++;
-      item.subtotal = item.subtotal + item.price;
+      item.subtotal = calculateSubtotal(item.id);
       return true;
     }
     return false;
   });
-
-  if (itemExists) {
-    newCart.find((product) => {
-      if (product.id === 1 && product.quantity > 3) {
-        product.subtotalWithDiscount = product.quantity * 10;
-        product.subtotal = product.subtotalWithDiscount;
-      } else if (product.id === 3 && product.quantity >= 10) {
-        product.subtotalWithDiscount = ((product.subtotal * 2) / 3).toFixed(2);
-      }
-    });
-  }
 
   if (!itemExists) {
     newCart.push(chosenProduct);
@@ -279,16 +272,14 @@ function removeFromCart(id) {
 
   if (itemToRemove.quantity >= 1) {
     itemToRemove.quantity--;
-    itemToRemove.subtotal = itemToRemove.subtotal - itemToRemove.price;
+    itemToRemove.subtotal = calculateSubtotal(itemToRemove.id);
   }
   if (itemToRemove.quantity === 0) {
     newCart.splice(index, 1);
   }
 
-  /* newCart = applyPromotionsCart(newCart); */
-
   let productsAmount = document.getElementById("count_product");
-  productsAmount.innerText = newCart.length;
+  productsAmount.innerText--;
 
   console.log(newCart);
   return newCart;
@@ -296,11 +287,24 @@ function removeFromCart(id) {
 
 function open_modal() {
   updateCart();
-  console.log("Open Modal");
   printCart();
 }
 
 function updateCart() {
   let cartBody = document.querySelector("#cart_list");
   cartBody.innerHTML = "";
+}
+
+function calculateSubtotal(id) {
+  let item = newCart.find((product) => product.id === id);
+
+  if (item.id === 1 && item.quantity > 3) {
+    result = item.quantity * 10;
+  } else if (item.id === 3 && item.quantity >= 10) {
+    result = (item.quantity * item.price * 2) / 3;
+    console.log("este");
+  } else {
+    result = item.quantity * item.price;
+  }
+  return result;
 }

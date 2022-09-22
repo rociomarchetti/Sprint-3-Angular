@@ -1,10 +1,10 @@
 // Exercise 7
 
 const form = document.getElementById("myForm");
-/* const inputs = form.getElementsByTagName("input"); */
 
 function validate(event) {
-  event.preventDefault()
+  event.preventDefault();
+  event.stopPropagation();
   let error = 0;
   let mailFormat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
 
@@ -22,52 +22,64 @@ function validate(event) {
   let fPhone = document.getElementById("fPhone");
   let userPhone = fPhone.value.trim();
 
-  if (checkValidLength(username) === false || checkOnlyLetters(username) === false) {
+  if (
+    checkValidLength(username) === false ||
+    checkOnlyLetters(username) === false
+  ) {
     fName.classList.add("is-invalid");
     error++;
   } else {
-    fName.classList.remove("is-invalid")
-    fName.classList.add("is-valid")
-   }
-  
-  if (checkValidLength(userEmail) === false || userEmail.match(mailFormat) === false) {
+    fName.classList.remove("is-invalid");
+    fName.classList.add("is-valid");
+  }
+
+  if (
+    checkValidLength(userEmail) === false ||
+    userEmail.match(mailFormat) === false
+  ) {
     fEmail.classList.add("is-invalid");
     error++;
   } else {
-    fEmail.classList.remove("is-invalid")
-    fEmail.classList.add("is-valid")
+    fEmail.classList.remove("is-invalid");
+    fEmail.classList.add("is-valid");
   }
-    
+
   if (checkValidLength(userAddress) === false) {
     fAddress.classList.add("is-invalid");
     error++;
   } else {
-    fAddress.classList.remove("is-invalid")
-    fAddress.classList.add("is-valid")
+    fAddress.classList.remove("is-invalid");
+    fAddress.classList.add("is-valid");
   }
 
-  if (checkValidLength(userLastName) === false || checkOnlyLetters(userLastName) === false) {
+  if (
+    checkValidLength(userLastName) === false ||
+    checkOnlyLetters(userLastName) === false
+  ) {
     lName.classList.add("is-invalid");
     error++;
-  } else { 
-    lName.classList.remove("is-invalid")
-    lName.classList.add("is-valid")
+  } else {
+    lName.classList.remove("is-invalid");
+    lName.classList.add("is-valid");
   }
 
-  if (checkValidLength(userPassword) === false || checkNumbersAndLetters(userPassword) === false) {
+  if (
+    checkValidLength(userPassword) === false ||
+    checkNumbersAndLetters(userPassword) === false
+  ) {
     fPassword.classList.add("is-invalid");
     error++;
   } else {
-    fPassword.classList.remove("is-invalid")
-    fPassword.classList.add("is-valid")
+    fPassword.classList.remove("is-invalid");
+    fPassword.classList.add("is-valid");
   }
 
   if (checkOnlyNumbers(userPhone) === false || userPhone.length < 9) {
     fPhone.classList.add("is-invalid");
     error++;
   } else {
-    fPhone.classList.remove("is-invalid")
-    fPhone.classList.add("is-valid")
+    fPhone.classList.remove("is-invalid");
+    fPhone.classList.add("is-valid");
   }
 
   if (error > 0) {
@@ -75,87 +87,16 @@ function validate(event) {
   } else {
     alert("OK");
   }
+}
 
-  event.preventDefault();
-  event.preventPropagation();
-} 
-
-/* function checkName() {
-  if (checkValidLength(username) === false) {
-    fName.classList.add("is-invalid");
-    
-  } else if (checkOnlyLetters(username) === false) {
-    fName.classList.add("is-invalid");
-    
-  } else {
-    fName.classList.add("is-valid");
-    
-  }
-} */
-
-/* function checkEmail() {
-  let mailFormat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-
-  if (checkValidLength(userEmail) === false) {
-    fEmail.classList.add("is-invalid");
-    return false;
-  } else if (userEmail.match(mailFormat) === false) {
-    fEmail.classList.add("is-invalid");
-    return false;
-  } else {
-    fEmail.classList.add("is-valid");
-    return true;
-  }
-} */
-
-/* function checkAddress() {
-  if (checkValidLength(userAddress) === false) {
-    fAddress.classList.add("is-invalid");
-    return false;
-  } else {
-    fAddress.classList.add("is-valid");
-    return true;
-  }
-} */
-
-/* function checkLastName() {
-  if (checkValidLength(userLastName) === false) {
-    lName.classList.add("is-invalid");
-    return false;
-  } else if (checkOnlyLetters(userLastName) === false) {
-    lName.classList.add("is-invalid");
-    return false;
-  } else {
-    lName.classList.add("is-valid");
-    return true;
-  }
-} */
-
-/* function checkPassWord() {
-  if (checkValidLength(userPassword) === false) {
-    fPassword.classList.add("is-invalid");
-    return false;
-  } else if (checkNumbersAndLetters(userPassword) === false) {
-    fPassword.classList.add("is-invalid");
-    return false;
-  } else {
-    fPassword.classList.add("is-valid");
-    return true;
-  }
-} */
-
-/* function checkPhone() {
-  if (checkOnlyNumbers(userPhone) === false) {
-    fPhone.classList.add("is-invalid");
-    return false;
-  } else if (userPhone.length < 9) {
-    fPhone.classList.add("is-invalid");
-    return false;
-  } else {
-    fPhone.classList.add("is-valid");
-    return false;
-  }
-} */
+form.addEventListener(
+  "blur",
+  (event) => {
+    console.log(event);
+    if (event.target.value != "") event.target.classList.remove("is-invalid");
+  },
+  true
+);
 
 function checkOnlyLetters(str) {
   return /^[a-zA-Z]+$/.test(str);
