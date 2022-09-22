@@ -82,21 +82,16 @@ function validate(event) {
     fPhone.classList.add("is-valid");
   }
 
-  if (error > 0) {
-    alert("Please fix the error to submit");
-  } else {
+  if (error === 0) {
     alert("OK");
-  }
+  } 
 }
 
-form.addEventListener(
-  "blur",
-  (event) => {
-    console.log(event);
-    if (event.target.value != "") event.target.classList.remove("is-invalid");
-  },
-  true
-);
+form.addEventListener('blur', (event) => {
+	console.log(event);
+	if(event.target.value!='') event.target.classList.remove('is-invalid');
+  validate();
+}, true);
 
 function checkOnlyLetters(str) {
   return /^[a-zA-Z]+$/.test(str);
